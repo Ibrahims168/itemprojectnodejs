@@ -10,6 +10,7 @@ router.get("/getItems", async (req,res) => {
 
  router.post ("/addNewItem", async  (req, res) =>{
      const item = new Item(req.body)
+     console.log(req.body);
      const response = await item.save()
      res.send(response)
  })
