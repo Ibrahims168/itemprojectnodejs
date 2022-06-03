@@ -7,6 +7,8 @@ router.get("/getItems", async (req,res) => {
     res.send(items) 
  })
 
+
+ 
  router.post ("/addNewItem", async  (req, res) =>{
      const item = new Item(req.body)
      console.log(req.body);
