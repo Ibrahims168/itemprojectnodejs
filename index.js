@@ -1,28 +1,21 @@
 const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config()
+const path = require("path")
 
-const Item = require ('./server/models/item.model')
+mongoose
+.connect(process.env.MONGODB_URL)
+.then(()=>console.log("connected to database"))
 
-mongoose.connect(process.env.MONGODB_URL).then(()=>console.log("connected to database"))
-
-
+const itemRouter = require("./server/routes/item.api")
 const app = express()
-const PORT = process.env.PORT 
-const items = [] 
 
+app.use(express.static(path.join(__dirname, "dist")))
 app.use(express.json())
-app.get("/getItems", function (req,res){
-   res.send(items) 
-})
+app.use("/item", itemRouter)
 
-app.post("/additem", async function (req,res){
-    const item = new Item(req.body);
-    const response = await item.save();
-    res.send(response);
-    res.send("item recieved")
-})
 
+const PORT = process.env.PORT
 app.listen(PORT, function(){
     console.log("up and running on port " +PORT);
 })
